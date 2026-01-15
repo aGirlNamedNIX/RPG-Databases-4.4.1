@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -16,7 +16,7 @@ func start():
 	var json_dictionary = get_parent().get_parent().call("read_data", "State")
 	$StateButton.clear()
 	for i in range(json_dictionary.size()):
-		var state_data = json_dictionary["state" + String(i)]
+		var state_data = json_dictionary["state" + str(i)]
 		if i > $StateButton.get_item_count() - 1:
 			$StateButton.add_item(state_data["name"])
 		else:
@@ -25,14 +25,14 @@ func start():
 
 func refresh_data(id):
 	var json_dictionary = get_parent().get_parent().call("read_data", "State")
-	var state_data = json_dictionary["state" + String(id)]
+	var state_data = json_dictionary["state" + str(id)]
 	var erase_conditions = state_data["erase_conditions"]
 	var messages = state_data["messages"]
 	var custom_erase_conditions = state_data["custom_erase_conditions"]
 	$NameLabel/NameLine.text = state_data["name"]
 	var icon = state_data["icon"]
 	if icon != "":
-		iconPath = String(state_data["icon"])
+		iconPath = str(state_data["icon"])
 		$IconLabel/Sprite.texture = load(state_data["icon"])
 	$RestrictionLabel/RestrictionOption.selected = int(state_data["restriction"])
 	$PriorityLabel/PriorityValue.value = int(state_data["priority"])
@@ -50,7 +50,7 @@ func refresh_data(id):
 		clear_effect_list()
 		var effect_list: Array = state_data["effects"]
 		for effect in effect_list:
-			add_effect_list(effect["name"], int(effect["data_id"]), String(effect["value1"]), String(effect["value2"]))
+			add_effect_list(effect["name"], int(effect["data_id"]), str(effect["value1"]), str(effect["value2"]))
 
 func _on_SearchState_pressed():
 	$IconLabel/SearchDialog.popup_centered()
@@ -117,7 +117,7 @@ func _on_AddState_pressed():
 	state_data["messages"] = messages
 	custom_erase_conditions["0"] = "Insert a custom condition"
 	state_data["custom_erase_conditions"] = custom_erase_conditions
-	json_dictionary["state" + String(id)] = state_data
+	json_dictionary["state" + str(id)] = state_data
 	get_parent().get_parent().call("store_data", "State", json_dictionary)
 
 func _on_RemoveState_pressed():
@@ -125,9 +125,9 @@ func _on_RemoveState_pressed():
 	if (json_dictionary.keys().size() > 1):
 		var state_id = state_selected
 		while (state_id < json_dictionary.keys().size() - 1):
-			json_dictionary["state" + String(state_id)] = json_dictionary["state" + String(state_id + 1)]
+			json_dictionary["state" + str(state_id)] = json_dictionary["state" + str(state_id + 1)]
 			state_id += 1
-		json_dictionary.erase("state" + String(state_id))
+		json_dictionary.erase("state" + str(state_id))
 		get_parent().get_parent().call("store_data", "State", json_dictionary)
 		$StateButton.remove_item(state_selected)
 		if (state_selected == 0):
@@ -141,7 +141,7 @@ func _on_RemoveState_pressed():
 
 func _on_SaveStates_pressed():
 	var json_dictionary = get_parent().get_parent().call("read_data", "State")
-	var state_data = json_dictionary["state" + String(state_selected)]
+	var state_data = json_dictionary["state" + str(state_selected)]
 	var erase_condition = state_data["erase_conditions"]
 	var messages = state_data["messages"]
 	var custom_erase_conditions = state_data["custom_erase_conditions"]
@@ -157,10 +157,10 @@ func _on_SaveStates_pressed():
 	erase_condition["erase_setps"] = $EraseLabel/SetpsLabel/SpinBox.value
 	var items = $MessagesLabel/PanelContainer/VBoxContainer/MessageList.get_item_count()
 	for i in range(items):
-		messages[String(i)] = $MessagesLabel/PanelContainer/VBoxContainer/MessageList.get_item_text(i)
+		messages[str(i)] = $MessagesLabel/PanelContainer/VBoxContainer/MessageList.get_item_text(i)
 	items = $CustomEraseLabel/PanelContainer/VBoxContainer/EraseConditions.get_item_count()
 	for i in range(items):
-		custom_erase_conditions[String(i)] = $CustomEraseLabel/PanelContainer/VBoxContainer/EraseConditions.get_item_text(i)
+		custom_erase_conditions[str(i)] = $CustomEraseLabel/PanelContainer/VBoxContainer/EraseConditions.get_item_text(i)
 	var effect_size = $EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.get_item_count()
 	for i in range(effect_size):
 		var effect_data: Dictionary
@@ -185,7 +185,7 @@ func _on_RemoveStateEffect_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 

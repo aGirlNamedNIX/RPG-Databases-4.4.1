@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -15,7 +15,7 @@ func start():
 	if (database_loaded == false):
 		var jsonDictionary = get_parent().get_parent().call("read_data", "Effect")
 		for i in range(jsonDictionary.size()):
-			var effect_data = jsonDictionary["effect" + String(i)]
+			var effect_data = jsonDictionary["effect" + str(i)]
 			var show_list = effect_data["data_type"]
 			var value2 = effect_data["value2"]
 
@@ -24,9 +24,9 @@ func start():
 				$EffectLabel/PanelContainer/VBoxContainer/Effects/DataTypes.add_item(show_list["data"])
 			else:
 				$EffectLabel/PanelContainer/VBoxContainer/Effects/DataTypes.add_item("disabled")
-			$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue1.add_item(String(effect_data["value1"]))
+			$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue1.add_item(str(effect_data["value1"]))
 			if (value2["show"] == true):
-				$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.add_item(String(value2["data"]))
+				$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.add_item(str(value2["data"]))
 			else:
 				$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.add_item("-1")
 		database_loaded = true
@@ -115,13 +115,13 @@ func _on_AddEffectConfirm_pressed():
 		var id = $EffectLabel/PanelContainer/VBoxContainer/Effects/EffectNames.get_selected_items()[0];
 		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectNames.SetItemtext(id, name)
 		$EffectLabel/PanelContainer/VBoxContainer/Effects/DataTypes.SetItemtext(id, data_type)
-		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue1.SetItemtext(id, String(value1))
-		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.SetItemtext(id, String(value2))
+		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue1.SetItemtext(id, str(value1))
+		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.SetItemtext(id, str(value2))
 	else:
 		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectNames.add_item(name)
 		$EffectLabel/PanelContainer/VBoxContainer/Effects/DataTypes.add_item(data_type)
-		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue1.add_item(String(value1))
-		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.add_item(String(value2))
+		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue1.add_item(str(value1))
+		$EffectLabel/PanelContainer/VBoxContainer/Effects/EffectValue2.add_item(str(value2))
 	$AddEffect.hide()
 
 func _on_AddEffectCancel_pressed():
@@ -152,7 +152,7 @@ func _on_SaveEffects_pressed():
 			value2["show"] = true
 			value2["data"] = value2Val
 		effect_data["value2"] = value2
-		effect_list["effect" + String(i)] = effect_data
+		effect_list["effect" + str(i)] = effect_data
 	get_parent().get_parent().call("store_data", "Effect", effect_list)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

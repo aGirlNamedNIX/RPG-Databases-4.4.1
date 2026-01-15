@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -17,7 +17,7 @@ func start():
 	var json_dictionary = get_parent().get_parent().call("read_data", "Enemy")
 	$EnemyButton.clear()
 	for i in range(json_dictionary.size()):
-		var enemy_data = json_dictionary["enemy" + String(i)]
+		var enemy_data = json_dictionary["enemy" + str(i)]
 		if (i > $EnemyButton.get_item_count() - 1):
 			$EnemyButton.add_item(enemy_data["name"])
 		else:
@@ -26,7 +26,7 @@ func start():
 
 func refresh_data(id):
 	var json_dictionary = get_parent().get_parent().call("read_data", "Enemy")
-	var enemy_data = json_dictionary["enemy" + String(id)]
+	var enemy_data = json_dictionary["enemy" + str(id)]
 	json_dictionary = get_parent().get_parent().call("read_data", "System")
 	var system_stats_data = json_dictionary["stats"]
 	var item_list = get_parent().get_parent().call("read_data", "Item")
@@ -41,7 +41,7 @@ func refresh_data(id):
 	$StatsLabel/StatsContainer/DataContainer/StatList.clear()
 	$StatsLabel/StatsContainer/DataContainer/FormulaList.clear()
 	for i in range(system_stats_data.size()):
-		var stat_name = system_stats_data[String(i)]
+		var stat_name = system_stats_data[str(i)]
 		var enemy_stat_formula = enemy_data["stat_list"]
 		var stat_formula = "";
 		if (enemy_stat_formula.has(stat_name)):
@@ -71,7 +71,7 @@ func refresh_data(id):
 				drop_id_array.append(drop)
 				var armor_data = armor_list["armor" + kind_id]
 				$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/DropsList.add_item(armor_data["name"])
-		$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/ChanceList.add_item(String(drop_list[drop]))
+		$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/ChanceList.add_item(str(drop_list[drop]))
 	$ExpLabel/ExpSpin.value = int(enemy_data["experience"])
 	$GoldLabel/GoldSpin.value = int(enemy_data["money"])
 	
@@ -79,15 +79,15 @@ func refresh_data(id):
 		clear_effect_list()
 		var effect_list: Array = enemy_data["effects"]
 		for effect in effect_list:
-			add_effect_list(effect["name"], int(effect["data_id"]), String(effect["value1"]), String(effect["value2"]))
+			add_effect_list(effect["name"], int(effect["data_id"]), str(effect["value1"]), str(effect["value2"]))
 
 func _on_AddEnemy_pressed():
 	$EnemyButton.add_item("NewEnemy")
 	var id = $EnemyButton.get_item_count() - 1;
 	var json_dictionary = get_parent().get_parent().call("read_data", "Enemy")
-	var enemy_data: Dictionary
-	var stats_data: Dictionary
-	var drop_data: Dictionary
+	var enemy_data
+	var stats_data
+	var drop_data
 	enemy_data["name"] = "Slime"
 	enemy_data["graphicImage"] = ""
 	stats_data["hp"] = "150"
@@ -103,7 +103,7 @@ func _on_AddEnemy_pressed():
 	enemy_data["money"] = 50
 	enemy_data["stat_list"] = stats_data
 	enemy_data["drop_list"] = drop_data
-	json_dictionary["enemy" + String(id)] = enemy_data
+	json_dictionary["enemy" + str(id)] = enemy_data
 	get_parent().get_parent().call("store_data", "Enemy", json_dictionary)
 
 func _on_eraseEnemy_pressed():
@@ -132,7 +132,7 @@ func _on_EnemyGraphic_file_selected(path):
 	graphics_path = path;
 	$GraphicLabel/Graphic.texture = load(path)
 
-func _on_FormulaList_item_activated(var index):
+func _on_FormulaList_item_activated(index):
 	var stat_name = $StatsLabel/StatsContainer/DataContainer/StatList.get_item_text(index)
 	var stat_formula = $StatsLabel/StatsContainer/DataContainer/FormulaList.get_item_text(index)
 	$StatsEdit/Stat.text = stat_name
@@ -155,7 +155,7 @@ func _on_AddDrop_pressed():
 	$DropEdit/Type/OptionButton.select(0)
 	var item_data = get_parent().get_parent().call("read_data", "Item")
 	for i in range(item_data.size()):
-		var itemName = item_data["item" + String(i)]
+		var itemName = item_data["item" + str(i)]
 		if (i > $DropEdit/Drop/OptionButton.get_item_count() - 1):
 			$DropEdit/Drop/OptionButton.add_item(itemName["name"])
 		else:
@@ -175,21 +175,21 @@ func _on_DropType_item_selected(index):
 	match index:
 		0:
 			for i in range(item_data.size()):
-				var itemName = item_data["item" + String(i)]
+				var itemName = item_data["item" + str(i)]
 				if (i > $DropEdit/Drop/OptionButton.get_item_count() - 1):
 					$DropEdit/Drop/OptionButton.add_item(itemName["name"])
 				else:
 					$DropEdit/Drop/OptionButton.set_item_text(i, itemName["name"])
 		1:
 			for i in range(weapon_data.size()):
-				var weaponName = weapon_data["weapon" + String(i)]
+				var weaponName = weapon_data["weapon" + str(i)]
 				if (i > $DropEdit/Drop/OptionButton.get_item_count() - 1):
 					$DropEdit/Drop/OptionButton.add_item(weaponName["name"])
 				else:
 					$DropEdit/Drop/OptionButton.set_item_text(i, weaponName["name"])
 		2:
 			for i in range(armor_data.size()):
-				var armorName = armor_data["armor" + String(i)]
+				var armorName = armor_data["armor" + str(i)]
 				if (i > $DropEdit/Drop/OptionButton.get_item_count() - 1):
 					$DropEdit/Drop/OptionButton.add_item(armorName["name"])
 				else:
@@ -204,18 +204,18 @@ func _on_DropEditOkButton_pressed():
 	var chance = int($DropEdit/Chance/SpinBox.value)
 	match id:
 		0:
-			drop_id_array.append("i" + String(selected_id))
-			var item_data = item_list["item" + String(selected_id)]
+			drop_id_array.append("i" + str(selected_id))
+			var item_data = item_list["item" + str(selected_id)]
 			$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/DropsList.add_item(item_data["name"])
 		1:
-			drop_id_array.append("w" + String(selected_id))
-			var weapon_data = weapon_list["weapon" + String(selected_id)]
+			drop_id_array.append("w" + str(selected_id))
+			var weapon_data = weapon_list["weapon" + str(selected_id)]
 			$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/DropsList.add_item(weapon_data["name"])
 		2:
-			drop_id_array.append("a" + String(selected_id))
-			var armor_data = armor_list["armor" + String(selected_id)]
+			drop_id_array.append("a" + str(selected_id))
+			var armor_data = armor_list["armor" + str(selected_id)]
 			$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/DropsList.add_item(armor_data["name"])
-	$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/ChanceList.add_item(String(chance))
+	$DropsLabel/DropsContainer/VBoxContainer/HBoxContainer/ChanceList.add_item(str(chance))
 	$DropEdit.hide()
 
 func _on_DropEditCancelButton_pressed():
@@ -227,7 +227,7 @@ func _on_EnemySaveButton_pressed():
 
 func save_enemy_data():
 	var json_dictionary = get_parent().get_parent().call("read_data", "Enemy")
-	var enemy_data = json_dictionary["enemy" + String(enemy_selected)]
+	var enemy_data = json_dictionary["enemy" + str(enemy_selected)]
 	var stats_data = enemy_data["stat_list"]
 	var drops_data = enemy_data["drop_list"]
 	var effect_list: Array
@@ -270,7 +270,7 @@ func _on_eraseEnemyEffect_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 
@@ -283,7 +283,3 @@ func clear_effect_list() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
-func _on_EnemyButton_item_selected(index):
-	enemy_selected = index
-	refresh_data(index)

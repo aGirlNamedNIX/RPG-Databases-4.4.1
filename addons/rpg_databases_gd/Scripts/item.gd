@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -15,7 +15,7 @@ func start() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Item")
 	$ItemButton.clear()
 	for i in range(json_dictionary.size()):
-		var item_data: Dictionary = json_dictionary["item"+String(i)]
+		var item_data: Dictionary = json_dictionary["item"+str(i)]
 		if i > $ItemButton.get_item_count() - 1:
 			$ItemButton.add_item(item_data["name"])
 		else:
@@ -24,14 +24,14 @@ func start() -> void:
 	var system_data: Dictionary = json_dictionary["elements"]
 	for i in range(system_data.size()):
 		if i >$DamageLabel/ElementLabel/ElementButton.get_item_count() - 1:
-			$DamageLabel/ElementLabel/ElementButton.add_item(system_data[String(i)])
+			$DamageLabel/ElementLabel/ElementButton.add_item(system_data[str(i)])
 		else:
-			$DamageLabel/ElementLabel/ElementButton.set_item_text(i, system_data[String(i)])
+			$DamageLabel/ElementLabel/ElementButton.set_item_text(i, system_data[str(i)])
 	refresh_data(item_selected)
 
 func refresh_data(id: int) -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Item")
-	var item_data: Dictionary = json_dictionary["item"+String(id)]
+	var item_data: Dictionary = json_dictionary["item"+str(id)]
 	$NameLabel/NameText.text = item_data["name"]
 	var icon: String = item_data["icon"]
 	if icon != "":
@@ -79,7 +79,7 @@ func _on_AddItem_pressed() -> void:
 	item_data["damage_type"] = 1
 	item_data["element"] = 0
 	item_data["formula"] = "10"
-	json_dictionary["item" + String(id)] = item_data
+	json_dictionary["item" + str(id)] = item_data
 	get_parent().get_parent().call("store_data", "Item", json_dictionary)
 
 func _on_RemoveItem_pressed():
@@ -87,9 +87,9 @@ func _on_RemoveItem_pressed():
 	if json_dictionary.keys().size() > 1:
 		var item_id: int = item_selected
 		while item_id < (json_dictionary.keys().size() - 1):
-			json_dictionary["item"+String(item_id)] = json_dictionary["item"+String(item_id+1)]
+			json_dictionary["item"+str(item_id)] = json_dictionary["item"+str(item_id+1)]
 			item_id += 1
-		json_dictionary.erase("item"+String(item_id))
+		json_dictionary.erase("item"+str(item_id))
 		get_parent().get_parent().call("store_data", "Item", json_dictionary)
 		$ItemButton.remove_item(item_selected)
 		if item_selected == 0:
@@ -107,7 +107,7 @@ func _on_ItemSaveButton_pressed() -> void:
 
 func save_item_data() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Item")
-	var item_data: Dictionary = json_dictionary["item"+String(item_selected)]
+	var item_data: Dictionary = json_dictionary["item"+str(item_selected)]
 	var effect_list: Array
 	item_data["name"] = $NameLabel/NameText.text
 	$ItemButton.set_item_text(item_selected, $NameLabel/NameText.text)
@@ -150,7 +150,7 @@ func _on_RemoveItemEffect_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 

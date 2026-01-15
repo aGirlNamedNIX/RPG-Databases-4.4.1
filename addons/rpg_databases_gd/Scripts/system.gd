@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -34,19 +34,19 @@ func start() -> void:
 	$SkillTypesLabel/SkillTypeContainer/VBoxContainer/SkillTypeList.clear()
 	for i in range(stats_data.size()):
 		var item = $StatsLabel/StatsContainer/StatsBoxContainer/StatsList
-		item.add_item(stats_data[String(i)])
+		item.add_item(stats_data[str(i)])
 	for i in range(weapons_data.size()):
 		var item = $WeaponTypesLabel/WeaponTypesContainer/WpBoxContainer/WeaponList
-		item.add_item(weapons_data[String(i)])
+		item.add_item(weapons_data[str(i)])
 	for i in range(armors_data.size()):
 		var item = $ArmorTypesLabel/ArmorTypesContainer/ArBoxContainer/ArmorList
-		item.add_item(armors_data[String(i)])
+		item.add_item(armors_data[str(i)])
 	for i in range(elements_data.size()):
 		var item = $ElementLabel/ElementContainer/EleBoxContainer/ElementList
-		item.add_item(elements_data[String(i)])
+		item.add_item(elements_data[str(i)])
 	for i in range(skills_data.size()):
 		var item = $SkillTypesLabel/SkillTypeContainer/VBoxContainer/SkillTypeList
-		item.add_item(skills_data[String(i)])
+		item.add_item(skills_data[str(i)])
 	for id in slots_data.keys():
 		var kind = $EquipmentLabel/EquipContainer/SetContainer/SetDivisor/KindList
 		var kindId: String = String(id[0])
@@ -73,7 +73,7 @@ func save_stats():
 	var stat_size = $StatsLabel/StatsContainer/StatsBoxContainer/StatsList.get_item_count()
 	for i in range(stat_size):
 		var text = $StatsLabel/StatsContainer/StatsBoxContainer/StatsList.get_item_text(i)
-		stats_data[String(i)] = text
+		stats_data[str(i)] = text
 	json_dictionary["stats"] = stats_data
 	get_parent().get_parent().call("store_data", "System", json_dictionary)
 
@@ -83,7 +83,7 @@ func save_weapons():
 	var weapon_size = $WeaponTypesLabel/WeaponTypesContainer/WpBoxContainer/WeaponList.get_item_count()
 	for i in range(weapon_size):
 		var text = $WeaponTypesLabel/WeaponTypesContainer/WpBoxContainer/WeaponList.get_item_text(i)
-		weapons_data[String(i)] = text
+		weapons_data[str(i)] = text
 	json_dictionary["weapons"] = weapons_data
 	get_parent().get_parent().call("store_data", "System", json_dictionary)
 
@@ -93,7 +93,7 @@ func save_armors():
 	var armor_size = $ArmorTypesLabel/ArmorTypesContainer/ArBoxContainer/ArmorList.get_item_count()
 	for i in range(armor_size):
 		var text = $ArmorTypesLabel/ArmorTypesContainer/ArBoxContainer/ArmorList.get_item_text(i)
-		armors_data[String(i)] = text
+		armors_data[str(i)] = text
 	json_dictionary["armors"] = armors_data
 	get_parent().get_parent().call("store_data", "System", json_dictionary)
 
@@ -103,7 +103,7 @@ func save_elements():
 	var element_size = $ElementLabel/ElementContainer/EleBoxContainer/ElementList.get_item_count()
 	for i in range(element_size):
 		var text = $ElementLabel/ElementContainer/EleBoxContainer/ElementList.get_item_text(i)
-		elements_data[String(i)] = text
+		elements_data[str(i)] = text
 	json_dictionary["elements"] = elements_data
 	get_parent().get_parent().call("store_data", "System", json_dictionary)
 
@@ -113,7 +113,7 @@ func save_skills():
 	var skill_size = $SkillTypesLabel/SkillTypeContainer/VBoxContainer/SkillTypeList.get_item_count()
 	for i in range(skill_size):
 		var text = $SkillTypesLabel/SkillTypeContainer/VBoxContainer/SkillTypeList.get_item_text(i)
-		skills_data[String(i)] = text
+		skills_data[str(i)] = text
 	json_dictionary["skills"] = skills_data
 	get_parent().get_parent().call("store_data", "System", json_dictionary)
 
@@ -130,7 +130,7 @@ func save_slots():
 			"Armor":
 				id = "a"
 		var text = $EquipmentLabel/EquipContainer/SetContainer/SetDivisor/TypeList.get_item_text(i)
-		id += String(i)
+		id += str(i)
 		slots_data[String(id)] = text
 	json_dictionary["slots"] = slots_data
 	get_parent().get_parent().call("store_data", "System", json_dictionary)

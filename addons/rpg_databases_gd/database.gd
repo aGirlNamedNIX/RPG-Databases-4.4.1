@@ -1,13 +1,13 @@
-tool
+@tool
 extends EditorPlugin
 
-var instanced_scene: Control = null
+var instanced_scene: Node = null
 var button: Button = Button.new()
 
 func _enter_tree() -> void:
-	instanced_scene = load("res://addons/rpg_databases_gd/Scenes/Base.tscn").instance()
+	instanced_scene = load("res://addons/rpg_databases_gd/Scenes/Base.tscn").instantiate()
 	button.text = "Database"
-	button.connect("pressed", self, "_on_button_pressed")
+	button.connect("pressed", _on_button_pressed)
 	add_control_to_container(EditorPlugin.CONTAINER_TOOLBAR, button)
 	add_child(instanced_scene)
 

@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -16,7 +16,7 @@ func start() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Armor")
 	$ArmorButton.clear()
 	for i in range(json_dictionary.size()):
-		var armor_data: Dictionary = json_dictionary["armor"+String(i)]
+		var armor_data: Dictionary = json_dictionary["armor"+str(i)]
 		if i > $ArmorButton.get_item_count() - 1:
 			$ArmorButton.add_item(armor_data["name"])
 		else:
@@ -25,9 +25,9 @@ func start() -> void:
 	var system_data: Dictionary = json_dictionary["armors"]
 	for i in range(system_data.size()):
 		if i > $ATypeLabel/ATypeButton.get_item_count() - 1:
-			$ATypeLabel/ATypeButton.add_item(system_data[String(i)])
+			$ATypeLabel/ATypeButton.add_item(system_data[str(i)])
 		else:
-			$ATypeLabel/ATypeButton.set_item_text(i, system_data[String(i)])
+			$ATypeLabel/ATypeButton.set_item_text(i, system_data[str(i)])
 	system_data = json_dictionary["slots"]
 	var final_id: int = 0
 	for string in system_data.keys():
@@ -44,7 +44,7 @@ func start() -> void:
 
 func refresh_data(id: int) -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Armor")
-	var armor_data: Dictionary = json_dictionary["armor" + String(id)]
+	var armor_data: Dictionary = json_dictionary["armor" + str(id)]
 	json_dictionary = get_parent().get_parent().call("read_data", "System")
 	var system_data: Dictionary = json_dictionary["stats"]
 	$NameLabel/NameText.text = armor_data["name"]
@@ -60,7 +60,7 @@ func refresh_data(id: int) -> void:
 	$StatsLabel/StatsContainer/DataContainer/StatNameCont/StatNameList.clear()
 	$StatsLabel/StatsContainer/DataContainer/StatValueCont/StatValueList.clear()
 	for i in range(system_data.size()):
-		var stat_name: String = system_data[String(i)]
+		var stat_name: String = system_data[str(i)]
 		var armor_stat_formula: Dictionary = armor_data["stat_list"]
 		var stat_formula: String = ""
 		if armor_stat_formula.has(stat_name):
@@ -96,7 +96,7 @@ func _on_AddArmorButton_pressed() -> void:
 	armor_stats["spd"] = "0"
 	armor_stats["luk"] = "0"
 	armor_data["stat_list"] = armor_stats
-	json_dictionary["armor" + String(id)] = armor_data
+	json_dictionary["armor" + str(id)] = armor_data
 	get_parent().get_parent().call("store_data", "Armor", json_dictionary)
 
 func _on_RemoveArmor_pressed() -> void:
@@ -104,9 +104,9 @@ func _on_RemoveArmor_pressed() -> void:
 	if json_dictionary.keys().size() > 1:
 		var armor_id: int = armor_selected
 		while armor_id < (json_dictionary.keys().size() - 1):
-			json_dictionary["armor"+String(armor_id)] = json_dictionary["armor"+String(armor_id+1)]
+			json_dictionary["armor"+str(armor_id)] = json_dictionary["armor"+str(armor_id+1)]
 			armor_id += 1
-		json_dictionary.erase("armor"+String(armor_id))
+		json_dictionary.erase("armor"+str(armor_id))
 		get_parent().get_parent().call("store_data", "Armor", json_dictionary)
 		$ArmorButton.remove_item(armor_selected)
 		if armor_selected == 0:
@@ -135,7 +135,7 @@ func _on_ArmorButton_item_selected(id: int) -> void:
 
 func save_armor_data() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Armor")
-	var armor_data: Dictionary = json_dictionary["armor"+String(armor_selected)]
+	var armor_data: Dictionary = json_dictionary["armor"+str(armor_selected)]
 	var armor_stat_formula: Dictionary = armor_data["stat_list"]
 	var effect_list: Array
 	armor_data["name"] = $NameLabel/NameText.text
@@ -192,7 +192,7 @@ func _on_RemoveArmorEffect_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 

@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -16,7 +16,7 @@ func start() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Weapon")
 	$WeaponButton.clear()
 	for i in range(json_dictionary.size()):
-		var weapon_data: Dictionary = json_dictionary["weapon"+String(i)]
+		var weapon_data: Dictionary = json_dictionary["weapon"+str(i)]
 		if i > $WeaponButton.get_item_count() - 1:
 			$WeaponButton.add_item(weapon_data["name"])
 		else:
@@ -25,15 +25,15 @@ func start() -> void:
 	var system_data: Dictionary = json_dictionary["elements"]
 	for i in range(system_data.size()):
 		if i > $ElementLabel/ElementButton.get_item_count() - 1:
-			$ElementLabel/ElementButton.add_item(system_data[String(i)])
+			$ElementLabel/ElementButton.add_item(system_data[str(i)])
 		else:
-			$ElementLabel/ElementButton.set_item_text(i, system_data[String(i)])
+			$ElementLabel/ElementButton.set_item_text(i, system_data[str(i)])
 	system_data = json_dictionary["weapons"]
 	for i in range(system_data.size()):
 		if i > $WTypeLabel/WTypeButton.get_item_count() - 1:
-			$WTypeLabel/WTypeButton.add_item(system_data[String(i)])
+			$WTypeLabel/WTypeButton.add_item(system_data[str(i)])
 		else:
-			$WTypeLabel/WTypeButton.set_item_text(i, system_data[String(i)])
+			$WTypeLabel/WTypeButton.set_item_text(i, system_data[str(i)])
 	system_data = json_dictionary["slots"]
 	var final_id: int = 0
 	for string in system_data.keys():
@@ -50,7 +50,7 @@ func start() -> void:
 
 func refresh_data(id: int) -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Weapon")
-	var weapon_data: Dictionary = json_dictionary["weapon" + String(id)]
+	var weapon_data: Dictionary = json_dictionary["weapon" + str(id)]
 	json_dictionary = get_parent().get_parent().call("read_data", "System")
 	var system_data: Dictionary = json_dictionary["stats"]
 	$NameLabel/NameText.text = weapon_data["name"]
@@ -66,7 +66,7 @@ func refresh_data(id: int) -> void:
 	$StatsLabel/StatsContainer/DataContainer/StatNameCont/StatNameList.clear()
 	$StatsLabel/StatsContainer/DataContainer/StatValueCont/StatValueList.clear()
 	for i in range(system_data.size()):
-		var stat_name: String = system_data[String(i)]
+		var stat_name: String = system_data[str(i)]
 		var weapon_stat_formula: Dictionary = weapon_data["stat_list"]
 		var stat_formula: String = ""
 		if weapon_stat_formula.has(stat_name):
@@ -103,7 +103,7 @@ func _on_AddWeaponButton_pressed() -> void:
 	weapon_stats["spd"] = "0"
 	weapon_stats["luk"] = "0"
 	weapon_data["stat_list"] = weapon_stats
-	json_dictionary["weapon" + String(id)] = weapon_data
+	json_dictionary["weapon" + str(id)] = weapon_data
 	get_parent().get_parent().call("store_data", "Weapon", json_dictionary)
 
 func _on_RemoveWeapon_pressed() -> void:
@@ -111,9 +111,9 @@ func _on_RemoveWeapon_pressed() -> void:
 	if json_dictionary.keys().size() > 1:
 		var weapon_id: int = weapon_selected
 		while weapon_id < (json_dictionary.keys().size() - 1):
-			json_dictionary["weapon"+String(weapon_id)] = json_dictionary["weapon"+String(weapon_id+1)]
+			json_dictionary["weapon"+str(weapon_id)] = json_dictionary["weapon"+str(weapon_id+1)]
 			weapon_id += 1
-		json_dictionary.erase("weapon"+String(weapon_id))
+		json_dictionary.erase("weapon"+str(weapon_id))
 		get_parent().get_parent().call("store_data", "Weapon", json_dictionary)
 		$WeaponButton.remove_item(weapon_selected)
 		if weapon_selected == 0:
@@ -142,7 +142,7 @@ func _on_WeaponButton_item_selected(id: int) -> void:
 
 func save_weapon_data() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Weapon")
-	var weapon_data: Dictionary = json_dictionary["weapon"+String(weapon_selected)]
+	var weapon_data: Dictionary = json_dictionary["weapon"+str(weapon_selected)]
 	var weapon_stat_formula: Dictionary = weapon_data["stat_list"]
 	var effect_list: Array
 	weapon_data["name"] = $NameLabel/NameText.text
@@ -200,7 +200,7 @@ func _on_RemoveWeaponEffect_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 

@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -17,7 +17,7 @@ func start() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Class")
 	$ClassButton.clear()
 	for i in range(json_dictionary.size()):
-		var class_data: Dictionary = json_dictionary["class"+String(i)]
+		var class_data: Dictionary = json_dictionary["class"+str(i)]
 		if i > $ClassButton.get_item_count() - 1:
 			$ClassButton.add_item(class_data["name"])
 		else:
@@ -26,7 +26,7 @@ func start() -> void:
 
 func refresh_data(id: int) -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Class")
-	var class_data: Dictionary = json_dictionary["class"+String(id)]
+	var class_data: Dictionary = json_dictionary["class"+str(id)]
 	var class_skill_list: Dictionary = class_data["skill_list"]
 	json_dictionary = get_parent().get_parent().call("read_data", "System")
 	var system_stats_data: Dictionary = json_dictionary["stats"]
@@ -39,7 +39,7 @@ func refresh_data(id: int) -> void:
 	$StatsLabel/StatsContainer/DataContainer/StatsListContainer/StatsList.clear()
 	$StatsLabel/StatsContainer/DataContainer/FormulaListContainer/FormulaList.clear()
 	for i in range(system_stats_data.size()):
-		var stat_name: String = system_stats_data[String(i)]
+		var stat_name: String = system_stats_data[str(i)]
 		var class_stat_formula = class_data["stat_list"]
 		var stat_formula: String = ""
 		if class_stat_formula.has(stat_name):
@@ -52,22 +52,22 @@ func refresh_data(id: int) -> void:
 	$SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.clear()
 	for element in class_skill_list.keys():
 		skill_list_array.append(element)
-		var skill_data: Dictionary = json_dictionary["skill"+String(element)]
+		var skill_data: Dictionary = json_dictionary["skill"+str(element)]
 		var skill_name: String = skill_data["name"]
 		$SkillLabel/SkillContainer/HBoxContainer/SkillListContainer/SkillList.add_item(skill_name)
-		var level: String = String(class_skill_list[String(element)])
+		var level: String = str(class_skill_list[str(element)])
 		$SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.add_item(level)
 	$SkillLabel/AddSkill/SkillLabel/OptionButton.clear()
 	for element in json_dictionary.keys():
 		var skill_data: Dictionary = json_dictionary[element]
-		var name: String = String(skill_data["name"])
+		var name: String = str(skill_data["name"])
 		$SkillLabel/AddSkill/SkillLabel/OptionButton.add_item(name)
 		$SkillLabel/AddSkill/SkillLabel/OptionButton.select(0)
 	if class_data.has("effects") == true:
 		clear_effect_list()
 		var effect_list: Array = class_data["effects"]
 		for effect in effect_list:
-			add_effect_list(effect["name"], int(effect["data_id"]), String(effect["value1"]), String(effect["value2"]))
+			add_effect_list(effect["name"], int(effect["data_id"]), str(effect["value1"]), str(effect["value2"]))
 
 func _on_Search_pressed() -> void:
 	$IconLabel/IconSearch.popup_centered()
@@ -82,7 +82,7 @@ func _on_ClassSaveButton_pressed() -> void:
 
 func save_class_data() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Class")
-	var class_data: Dictionary = json_dictionary["class"+String(class_selected)]
+	var class_data: Dictionary = json_dictionary["class"+str(class_selected)]
 	var class_stat_formula: Dictionary = class_data["stat_list"]
 	var class_skill_list: Dictionary = class_data["skill_list"]
 	var effect_list: Array
@@ -99,7 +99,7 @@ func save_class_data() -> void:
 		class_stat_formula[stat] = formula
 	var skills_count = $SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.get_item_count()
 	for i in range(skills_count):
-		var skill: String = String(skill_list_array[i])
+		var skill: String = str(skill_list_array[i])
 		var level: int = int($SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.get_item_text(i))
 		class_skill_list[skill] = level
 	class_data["stat_list"] = class_stat_formula
@@ -136,7 +136,7 @@ func _on_AddClass_pressed() -> void:
 	class_data["stat_list"] = stat_data
 	skill_data[0] =  5
 	class_data["skill_list"] = skill_data
-	json_dictionary["class" + String(id)] = class_data
+	json_dictionary["class" + str(id)] = class_data
 	get_parent().get_parent().call("store_data", "Class", json_dictionary)
 
 func _on_RemoveClass_pressed() -> void:
@@ -144,9 +144,9 @@ func _on_RemoveClass_pressed() -> void:
 	if (json_dictionary.keys().size() > 1):
 		var class_id: int = class_selected
 		while class_id < (json_dictionary.keys().size() - 1):
-			json_dictionary["class"+String(class_id)] = json_dictionary["class"+String(class_id+1)]
+			json_dictionary["class"+str(class_id)] = json_dictionary["class"+str(class_id+1)]
 			class_id += 1
-		json_dictionary.erase("class"+String(class_id))
+		json_dictionary.erase("class"+str(class_id))
 		get_parent().get_parent().call("store_data", "Class", json_dictionary)
 		$ClassButton.remove_item(class_selected)
 		if class_selected == 0:
@@ -169,17 +169,17 @@ func _on_RemoveButton_pressed() -> void:
 	var selected: int = $SkillLabel/SkillContainer/HBoxContainer/SkillListContainer/SkillList.get_selected_items()[0]
 	$SkillLabel/SkillContainer/HBoxContainer/SkillListContainer/SkillList.remove_item(selected)
 	$SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.remove_item(selected)
-	skill_list_array.remove(selected)
+	skill_list_array.erase(selected)
 
 func _on_OkButton_pressed() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Skill")
 	var skill: int = $SkillLabel/AddSkill/SkillLabel/OptionButton.get_selected_id()
 	var level: int = int($SkillLabel/AddSkill/LevelLabel/LevelSpin.value)
-	skill_list_array.append(String(skill))
-	var skill_data: Dictionary = json_dictionary["skill"+String(skill)]
+	skill_list_array.append(str(skill))
+	var skill_data: Dictionary = json_dictionary["skill"+str(skill)]
 	var skill_name: String = skill_data["name"]
 	$SkillLabel/SkillContainer/HBoxContainer/SkillListContainer/SkillList.add_item(skill_name)
-	$SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.add_item(String(level))
+	$SkillLabel/SkillContainer/HBoxContainer/SkillLevelContainer/SkillLevelList.add_item(str(level))
 	$SkillLabel/AddSkill.hide()
 
 func _on_CancelButton_pressed() -> void:
@@ -228,7 +228,7 @@ func _on_RemoveClassEffect_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 

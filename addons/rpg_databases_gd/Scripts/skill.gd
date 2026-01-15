@@ -1,5 +1,5 @@
-extends Container
-tool
+@tool
+extends Panel
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -16,7 +16,7 @@ func start() -> void:
 	var system_dictionary: Dictionary = get_parent().get_parent().call("read_data", "System")
 	$SkillButton.clear()
 	for i in range(json_dictionary.size()):
-		var skill_data: Dictionary = json_dictionary["skill"+String(i)]
+		var skill_data: Dictionary = json_dictionary["skill"+str(i)]
 		if i > $SkillButton.get_item_count() - 1:
 			$SkillButton.add_item(skill_data["name"])
 		else:
@@ -24,20 +24,20 @@ func start() -> void:
 	var system_data: Dictionary = system_dictionary["elements"]
 	for i in range(system_data.size()):
 		if i >$DamageLabel/ElementLabel/ElementButton.get_item_count() - 1:
-			$DamageLabel/ElementLabel/ElementButton.add_item(system_data[String(i)])
+			$DamageLabel/ElementLabel/ElementButton.add_item(system_data[str(i)])
 		else:
-			$DamageLabel/ElementLabel/ElementButton.set_item_text(i, system_data[String(i)])
+			$DamageLabel/ElementLabel/ElementButton.set_item_text(i, system_data[str(i)])
 	system_data = system_dictionary["skills"]
 	for i in range(system_data.size()):
 		if i >$SkillTypeLabel/SkillTypeButton.get_item_count() - 1:
-			$SkillTypeLabel/SkillTypeButton.add_item(system_data[String(i)])
+			$SkillTypeLabel/SkillTypeButton.add_item(system_data[str(i)])
 		else:
-			$SkillTypeLabel/SkillTypeButton.set_item_text(i, system_data[String(i)])
+			$SkillTypeLabel/SkillTypeButton.set_item_text(i, system_data[str(i)])
 	refresh_data(skill_selected)
 
 func refresh_data(id: int) -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Skill")
-	var skill_data: Dictionary = json_dictionary["skill"+String(id)]
+	var skill_data: Dictionary = json_dictionary["skill"+str(id)]
 	$NameLabel/NameText.text = skill_data["name"]
 	var icon: String = skill_data["icon"]
 	if icon != "":
@@ -85,7 +85,7 @@ func _on_AddSkill_pressed() -> void:
 	skill_data["damage_type"] = 1
 	skill_data["element"] = 0
 	skill_data["formula"] = "atk * 4 - def * 2"
-	json_dictionary["skill" + String(id)] = skill_data
+	json_dictionary["skill" + str(id)] = skill_data
 	get_parent().get_parent().call("store_data", "Skill", json_dictionary)
 
 func _on_RemoveSkill_pressed():
@@ -93,9 +93,9 @@ func _on_RemoveSkill_pressed():
 	if json_dictionary.keys().size() > 1:
 		var skill_id: int = skill_selected
 		while skill_id < (json_dictionary.keys().size() - 1):
-			json_dictionary["skill"+String(skill_id)] = json_dictionary["skill"+String(skill_id+1)]
+			json_dictionary["skill"+str(skill_id)] = json_dictionary["skill"+str(skill_id+1)]
 			skill_id += 1
-		json_dictionary.erase("skill"+String(skill_id))
+		json_dictionary.erase("skill"+str(skill_id))
 		get_parent().get_parent().call("store_data", "Skill", json_dictionary)
 		$SkillButton.remove_item(skill_selected)
 		if skill_selected == 0:
@@ -113,7 +113,7 @@ func _on_SkillSaveButton_pressed() -> void:
 
 func save_skill_data() -> void:
 	var json_dictionary: Dictionary = get_parent().get_parent().call("read_data", "Skill")
-	var skill_data: Dictionary = json_dictionary["skill"+String(skill_selected)]
+	var skill_data: Dictionary = json_dictionary["skill"+str(skill_selected)]
 	var effect_list: Array
 	skill_data["name"] = $NameLabel/NameText.text
 	$SkillButton.set_item_text(skill_selected, $NameLabel/NameText.text)
@@ -165,7 +165,7 @@ func _on_CharacterRemoveEffectButton_pressed() -> void:
 
 func add_effect_list(name: String, data_id: int, value1: String, value2: String) -> void:
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectNames.add_item(name)
-	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(String(data_id))
+	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/DataType.add_item(str(data_id))
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue1.add_item(value1)
 	$EffectLabel/PanelContainer/VBoxContainer/HBoxContainer/EffectValue2.add_item(value2)
 

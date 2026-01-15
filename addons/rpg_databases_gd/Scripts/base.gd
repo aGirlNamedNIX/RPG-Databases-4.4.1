@@ -1,13 +1,13 @@
-extends WindowDialog
-tool
+@tool
+extends Control
 
 var effect_manager_tab: String = ""
 var effect_data_type: String = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var database_file: File = File.new()
-	if (!database_file.file_exists("res://databases/System.json")):
-		database_file.open("res://databases/System.json", File.WRITE)
+	var database_file: FileAccess
+	if (!ResourceLoader.exists("res://databases/System.json")):
+		database_file = FileAccess.open("res://databases/System.json", FileAccess.WRITE_READ)
 		var system_list: Dictionary
 		var stats_data: Dictionary
 		var weapon_type_data: Dictionary
@@ -48,10 +48,10 @@ func _ready() -> void:
 		system_list["elements"] = element_data
 		system_list["slots"] = slots_data
 		system_list["skills"] = skill_type_data
-		database_file.store_string(JSON.print(system_list))
+		database_file.store_string(JSON.stringify(system_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Character.json")):
-		database_file.open("res://databases/Character.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Character.json")):
+		database_file = FileAccess.open("res://databases/Character.json", FileAccess.WRITE_READ)
 		var character_list: Dictionary
 		var character_data: Dictionary
 		var equip_type_data: Dictionary
@@ -74,10 +74,10 @@ func _ready() -> void:
 		character_data["initial_equip"] = initial_equip_data
 		character_data["equip_types"] = equip_type_data
 		character_list["chara0"] = character_data
-		database_file.store_line(JSON.print(character_list))
+		database_file.store_line(JSON.stringify(character_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Skill.json")):
-		database_file.open("res://databases/Skill.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Skill.json")):
+		database_file = FileAccess.open("res://databases/Skill.json", FileAccess.WRITE_READ)
 		var skill_data: Dictionary
 		var skill_list: Dictionary
 		skill_data["name"] = "Double Attack"
@@ -94,10 +94,10 @@ func _ready() -> void:
 		skill_data["element"] = 0
 		skill_data["formula"] = "atk * 4 - def * 2"
 		skill_list["skill0"] = skill_data
-		database_file.store_line(JSON.print(skill_list))
+		database_file.store_line(JSON.stringify(skill_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Class.json")):
-		database_file.open("res://databases/Class.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Class.json")):
+		database_file = FileAccess.open("res://databases/Class.json", FileAccess.WRITE_READ)
 		var class_data: Dictionary
 		var class_list: Dictionary
 		var class_stats: Dictionary
@@ -117,10 +117,10 @@ func _ready() -> void:
 		class_data["skill_list"] = skill_list
 		class_data["stat_list"] = class_stats
 		class_list["class0"] = class_data
-		database_file.store_line(JSON.print(class_list))
+		database_file.store_line(JSON.stringify(class_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Item.json")):
-		database_file.open("res://databases/Item.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Item.json")):
+		database_file = FileAccess.open("res://databases/Item.json", FileAccess.WRITE_READ)
 		var item_list: Dictionary
 		var item_data: Dictionary
 		item_data["name"] = "Potion"
@@ -137,10 +137,10 @@ func _ready() -> void:
 		item_data["element"] = 0
 		item_data["formula"] = "50"
 		item_list["item0"] = item_data
-		database_file.store_line(JSON.print(item_list))
+		database_file.store_line(JSON.stringify(item_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Weapon.json")):
-		database_file.open("res://databases/Weapon.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Weapon.json")):
+		database_file = FileAccess.open("res://databases/Weapon.json", FileAccess.WRITE_READ)
 		var weapon_list: Dictionary
 		var weapon_data: Dictionary
 		var weapon_stats: Dictionary
@@ -161,10 +161,10 @@ func _ready() -> void:
 		weapon_stats["luk"] = "0"
 		weapon_data["stat_list"] = weapon_stats
 		weapon_list["weapon0"] = weapon_data
-		database_file.store_line(JSON.print(weapon_list))
+		database_file.store_line(JSON.stringify(weapon_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Armor.json")):
-		database_file.open("res://databases/Armor.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Armor.json")):
+		database_file = FileAccess.open("res://databases/Armor.json", FileAccess.WRITE_READ)
 		var armor_list: Dictionary
 		var armor_data: Dictionary
 		var armor_stats: Dictionary
@@ -184,10 +184,10 @@ func _ready() -> void:
 		armor_stats["luk"] = "0"
 		armor_data["stat_list"] = armor_stats
 		armor_list["armor0"] = armor_data
-		database_file.store_line(JSON.print(armor_list))
+		database_file.store_line(JSON.stringify(armor_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Enemy.json")):
-		database_file.open("res://databases/Enemy.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Enemy.json")):
+		database_file = FileAccess.open("res://databases/Enemy.json", FileAccess.WRITE_READ)
 		var enemy_list: Dictionary
 		var enemy_data: Dictionary
 		var stats_data: Dictionary
@@ -208,10 +208,10 @@ func _ready() -> void:
 		enemy_data["stat_list"] = stats_data
 		enemy_data["drop_list"] = drop_data
 		enemy_list["enemy0"] = enemy_data
-		database_file.store_line(JSON.print(enemy_list))
+		database_file.store_line(JSON.stringify(enemy_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/State.json")):
-		database_file.open("res://databases/State.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/State.json")):
+		database_file = FileAccess.open("res://databases/State.json", FileAccess.WRITE_READ)
 		var state_list: Dictionary
 		var state_data: Dictionary
 		var erase_condition: Dictionary
@@ -232,10 +232,10 @@ func _ready() -> void:
 		state_data["custom_erase_conditions"] = custom_erase_conditions
 
 		state_list["state0"] = state_data
-		database_file.store_line(JSON.print(state_list))
+		database_file.store_line(JSON.stringify(state_list))
 		database_file.close()
-	if (!database_file.file_exists("res://databases/Effect.json")):
-		database_file.open("res://databases/Effect.json", File.WRITE)
+	if (!ResourceLoader.exists("res://databases/Effect.json")):
+		database_file = FileAccess.open("res://databases/Effect.json", FileAccess.WRITE_READ)
 		var effect_list: Dictionary
 		var effect_data: Dictionary
 		var show_list: Dictionary
@@ -250,24 +250,26 @@ func _ready() -> void:
 		effect_data["value2"] = value2
 
 		effect_list["effect0"] = effect_data
-		database_file.store_line(JSON.print(effect_list))
+		database_file.store_line(JSON.stringify(effect_list))
 		database_file.close()
 	
-	database_file.close()
 	$Tabs/Character.call("start")
 
 func read_data(file: String) -> Dictionary:
-	var database_file: File = File.new()
-	database_file.open("res://databases/" + file + ".json", File.READ)
+	var database_file: FileAccess
+	ResourceLoader.load("res://databases/" + file + ".json")
+	database_file = FileAccess.open("res://databases/" + file + ".json", FileAccess.READ)
 	var json_as_text: String = database_file.get_as_text()
+	var json : JSON = JSON.new()
+	var error = json.parse(json_as_text)
+	var json_parsed = json.data
 	database_file.close()
-	var json_parsed: JSONParseResult = JSON.parse(json_as_text)
-	return json_parsed.result
+	return json_parsed
 
 func store_data(file: String, data: Dictionary) -> void:
-	var database_file: File = File.new()
-	database_file.open("res://databases/" + file + ".json", File.WRITE)
-	database_file.store_string(JSON.print(data))
+	var database_file: FileAccess
+	database_file = FileAccess.open("res://databases/" + file + ".json", FileAccess.WRITE)
+	database_file.store_string(JSON.stringify(data))
 	database_file.close()
 
 func open_effect_manager(tab: String) -> void:
@@ -275,7 +277,7 @@ func open_effect_manager(tab: String) -> void:
 	var effect_data: Dictionary
 	$EffectManager/HBoxContainer/EffectList.clear()
 	for i in range(effect_list.size()):
-		effect_data = effect_list["effect"+String(i)]
+		effect_data = effect_list["effect"+str(i)]
 		$EffectManager/HBoxContainer/EffectList.add_item(effect_data["name"])
 	$EffectManager/HBoxContainer/EffectList.select(0)
 	_on_EffectList_item_selected(0)
@@ -286,7 +288,7 @@ func _on_EffectList_item_selected(index: int) -> void:
 	var effect_list: Dictionary = read_data("Effect")
 	var json_dictionary: Dictionary
 	var json_data: Dictionary
-	var effect_data: Dictionary = effect_list["effect"+String(index)]
+	var effect_data: Dictionary = effect_list["effect"+str(index)]
 	var data_types: Dictionary = effect_data["data_type"]
 	var value2: Dictionary = effect_data["value2"]
 	$EffectManager/HBoxContainer/VBoxContainer/DataList.clear()
@@ -303,33 +305,33 @@ func _on_EffectList_item_selected(index: int) -> void:
 			"States":
 				json_dictionary = read_data("State")
 				for i in range(json_dictionary.size()):
-					json_data = json_dictionary["state"+String(i)]
+					json_data = json_dictionary["state"+str(i)]
 					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(json_data["name"])
 			"Stats":
 				json_dictionary = read_data("System")
 				json_data = json_dictionary["stats"]
 				for i in range(json_dictionary.size()):
-					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(String(i))
+					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(str(i))
 			"Weapon Types":
 				json_dictionary = read_data("System")
 				json_data = json_dictionary["weapons"]
 				for i in range(json_dictionary.size()):
-					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(String(i))
+					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(str(i))
 			"Armor Types":
 				json_dictionary = read_data("System")
 				json_data = json_dictionary["armors"]
 				for i in range(json_dictionary.size()):
-					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(String(i))
+					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(str(i))
 			"Elements":
 				json_dictionary = read_data("System")
 				json_data = json_dictionary["elements"]
 				for i in range(json_dictionary.size()):
-					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(String(i))
+					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(str(i))
 			"Skill Types":
 				json_dictionary = read_data("System")
 				json_data = json_dictionary["skills"]
 				for i in range(json_dictionary.size()):
-					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(String(i))
+					$EffectManager/HBoxContainer/VBoxContainer/DataList.add_item(str(i))
 	match effect_data["value1"]:
 		0:
 			$EffectManager/HBoxContainer/VBoxContainer/Value1/LineEdit.show()
