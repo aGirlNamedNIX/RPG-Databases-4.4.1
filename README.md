@@ -1,6 +1,8 @@
 # RPG Database
 
 RPG database for [Godot Engine](https://godotengine.org) inspired on RPG Maker's database editor made in C#
+Forked and actively updating to modern Godot versions 4.4.1+.
+Currently only the GD version is being worked on. C# version once GD version is fully working.
 
 ## How to use
 
@@ -12,10 +14,11 @@ RPG database for [Godot Engine](https://godotengine.org) inspired on RPG Maker's
 
 Feel free to open an issue if you find bugs or have a feature request
 
-# Version 1.1.1
-- Fixed bugs on Character's tab regarding adding Effect Types.
-- Fixed bugs on State's tab regarding saving and adding effects.
-- Fixed bugs on all tabs regarding change member button not clearing past data.
-- Added sample database.
+# Version 1.2a
+- assume all previous features are broken
+- updated all GD scripts to be compliant with changes up to engine version 4.4.1
+- UI elements are completely broken and non-functional
+- changed all "WindowDialog" elements due to deprecation of that Node type.
+- altered layouts to move away from Container restrictions, only to discover that they're meant to be laid out programatically; will revert next update
 
-You can also find the project at [itch.io](https://sdtv9507.itch.io/godot-rpg-database-manager)
+You can also find the ORIGINAL project by user "sdtv9507" at [itch.io](https://sdtv9507.itch.io/godot-rpg-database-manager)
