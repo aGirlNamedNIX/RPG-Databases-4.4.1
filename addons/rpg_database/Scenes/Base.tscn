@@ -36,7 +36,7 @@ size = Vector2( 128, 128 )
 [sub_resource type="ImageTexture" id=8]
 size = Vector2( 32, 32 )
 
-[node name="Control" type="WindowDialog"]
+[node name="Control" type="Window"]
 margin_right = 960.0
 margin_bottom = 540.0
 window_title = "Database Manager"
@@ -282,7 +282,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 items = [ "Broad Sword", null, false, "Helmet", null, false, "Armor", null, false, "None", null, false, "Shield", null, false ]
 
-[node name="InitialEquipChange" type="WindowDialog" parent="Tabs/Character/InitialEquipLabel"]
+[node name="InitialEquipChange" type="Popup" parent="Tabs/Character/InitialEquipLabel"]
 margin_left = 109.0
 margin_top = -125.0
 margin_right = 439.0
@@ -369,7 +369,7 @@ margin_right = 114.0
 margin_bottom = 180.0
 text = "Remove Type"
 
-[node name="AddEquip" type="WindowDialog" parent="Tabs/Character/EquipLabel"]
+[node name="AddEquip" type="Popup" parent="Tabs/Character/EquipLabel"]
 margin_left = -310.0
 margin_top = -101.0
 margin_right = 116.0
@@ -644,7 +644,7 @@ margin_right = 62.0
 margin_bottom = 255.0
 rect_min_size = Vector2( 0, 255 )
 
-[node name="AddSkill" type="WindowDialog" parent="Tabs/Class/SkillLabel"]
+[node name="AddSkill" type="Popup" parent="Tabs/Class/SkillLabel"]
 margin_left = -272.0
 margin_top = 19.0
 margin_right = 120.0
@@ -819,7 +819,7 @@ margin_right = 314.0
 margin_bottom = 372.0
 text = "Remove Effect"
 
-[node name="StatEditor" type="WindowDialog" parent="Tabs/Class"]
+[node name="StatEditor" type="Popup" parent="Tabs/Class"]
 margin_left = 152.0
 margin_top = 67.0
 margin_right = 544.0
@@ -1878,7 +1878,7 @@ margin_right = 314.0
 margin_bottom = 370.0
 text = "Remove Effect"
 
-[node name="StatEditor" type="WindowDialog" parent="Tabs/Weapon"]
+[node name="StatEditor" type="Popup" parent="Tabs/Weapon"]
 margin_left = 152.0
 margin_top = 67.0
 margin_right = 544.0
@@ -2183,7 +2183,7 @@ margin_right = 328.0
 margin_bottom = 384.0
 text = "Remove Effect"
 
-[node name="StatEditor" type="WindowDialog" parent="Tabs/Armor"]
+[node name="StatEditor" type="Popup" parent="Tabs/Armor"]
 margin_left = 152.0
 margin_top = 67.0
 margin_right = 544.0
@@ -2492,7 +2492,7 @@ margin_bottom = 282.0
 window_title = "Abrir un Archivo"
 mode = 0
 
-[node name="StatsEdit" type="WindowDialog" parent="Tabs/Enemy"]
+[node name="StatsEdit" type="Popup" parent="Tabs/Enemy"]
 margin_left = 75.0
 margin_top = 98.0
 margin_right = 508.0
@@ -2528,7 +2528,7 @@ margin_right = 317.0
 margin_bottom = 104.0
 text = "Cancel"
 
-[node name="DropEdit" type="WindowDialog" parent="Tabs/Enemy"]
+[node name="DropEdit" type="Popup" parent="Tabs/Enemy"]
 margin_left = 100.0
 margin_top = 82.0
 margin_right = 532.0
@@ -2972,7 +2972,7 @@ margin_right = 12.0
 margin_bottom = 20.0
 text = "Remove State"
 
-[node name="AddString" type="WindowDialog" parent="Tabs/States"]
+[node name="AddString" type="Popup" parent="Tabs/States"]
 margin_right = 480.0
 margin_bottom = 135.0
 
@@ -3172,7 +3172,7 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 80, 0 )
 text = "Clear"
 
-[node name="AddEffect" type="WindowDialog" parent="Tabs/Effects"]
+[node name="AddEffect" type="Popup" parent="Tabs/Effects"]
 margin_right = 48.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 540, 240 )
@@ -3641,7 +3641,7 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 118, 0 )
 text = "Remove Set"
 
-[node name="EditField" type="WindowDialog" parent="Tabs/System"]
+[node name="EditField" type="Popup" parent="Tabs/System"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 102.0
@@ -3682,7 +3682,7 @@ margin_right = 271.0
 margin_bottom = 80.0
 text = "Cancel"
 
-[node name="AddSlot" type="WindowDialog" parent="Tabs/System"]
+[node name="AddSlot" type="Popup" parent="Tabs/System"]
 margin_right = 412.0
 margin_bottom = 142.0
 window_title = "Add Equipment Slot"
@@ -3737,7 +3737,7 @@ align = 1
 items = [ "Weapon", null, false, 0, null, "Armor", null, false, 1, null ]
 selected = 0
 
-[node name="EffectManager" type="WindowDialog" parent="."]
+[node name="EffectManager" type="Popup" parent="."]
 margin_right = 515.0
 margin_bottom = 216.0
 __meta__ = {
